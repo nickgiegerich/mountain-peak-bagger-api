@@ -1,6 +1,6 @@
 # Peak Bagger API Application
 
-This a simple Django Rest Framework application that is the backend for the Peak Bagger UI. 
+This is a simple Django Rest Framework application that is the backend for the Peak Bagger UI. 
 
 An overview of functionality below:
 * Register new users

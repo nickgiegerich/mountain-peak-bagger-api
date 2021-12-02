@@ -96,10 +96,30 @@ class ListUserPeaks(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def put(self, request, id):
+    def put(self, request, peakId):
         """
-           TODO UPDATE: used to edit the peak object passed 
+            UPDATE: used to edit the peak object passed 
 
-            * id: the id of the peak object
+            * peakId: the id of the peak object
         """
-        pass
+        current_peak = UserPeak.objects.get(
+            id=peakId)  # the existing peak object
+        new_data = request.data  # new data being sent in request
+
+        # serialize the data to validate and update existing object
+        serializer = UserPeakSerializer(current_peak, data=new_data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, peakId):
+        """ 
+            DELETE: used to delete a peak object
+
+            * peakId: the id of the peak object
+        """
+        peak = UserPeak.objects.get(id=peakId)
+        peak.delete()
+        return Response(status=status.HTTP_200_OK)
